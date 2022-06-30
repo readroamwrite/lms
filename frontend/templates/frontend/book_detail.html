@@ -1,0 +1,49 @@
+{% extends "base.html" %}
+{% block style %}
+    .product-title,  .product-description, .price, .vote, .sizes {
+    margin-bottom: 15px; }
+{% endblock %}
+{% block content %}
+    <div class="container bg bg-white">
+
+    <div class="container-fliud">
+    <div class="wrapper row">
+    
+    <div class="details col-6">
+        <h1>Title: {{ book.bookname }}</h1>
+
+        <p><strong>Author:</strong>{{ book.author }}</p>
+        <p><strong>Subject:</strong> {{ book.subject }}</p>
+        <div style="margin-left:20px;margin-top:20px">
+            <h4>Copies</h4>
+            {% if user.is_superuser %}
+                <a class="btn btn-danger" href="">DELETE</a>
+                
+            {% endif %}
+            {% if available_copies %}
+                <br>
+                # of avialable copies={{ available_copies }}
+                <br>
+                <a class="btn btn-primary" href="{% url 'frontend:book_issue' book.pk %}">Issue</a>
+            
+            {% elif copy %}
+                <br>
+                    You have already issued this book! 
+                </br>
+                {{ copy }} </a> Due on: {{copy.due_back}} <a href={% url 'frontend:book_return' copy.book.pk%} class="btn btn-danger">Return</a>            
+            {% else %}
+                <br>
+                    Sorry, all copies of this book are issued at the moment!
+                </br>
+                <button type="button" class="btn btn-secondary btn-lg" disabled>Issue</button>
+            {% endif %}      
+        
+        </div>
+
+    </div>
+
+    
+
+   
+
+{% endblock %}

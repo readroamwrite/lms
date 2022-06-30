@@ -1,0 +1,44 @@
+<!-- templates/home.html -->
+{% extends 'base.html' %}
+
+{% block title %}Home{% endblock %}
+
+{% block content %}
+{% if user.is_authenticated %}
+<div class="p-3 mb-4 bg-dark text-white d-flex align-items-center mb-4 py-4" id="home" style="min-height: 30vh">
+  <div class="container">
+      <div class="row align-items-center">
+         
+          <div class="col-lg-7 text-center text-lg-left">
+              <h3 class="text-white font-weight-normal mb-3">Hello,</h3>
+              <h3 class="display-3 text-uppercase text-primary mb-2" style="-webkit-text-stroke: 4px #ffffff;">{{ user.username }}!</h3>
+              <h3 class="typed-text-output d-inline font-weight-lighter text-white"></h3>
+          </div>
+          
+      </div>
+  </div>
+</div>
+  
+  
+  
+  <button type="button" class="btn btn-dark"><a href="{% url 'logout' %}">Log Out</a></button>
+
+   <ul>
+    {% for copy in copies %}
+    <a href={% url 'frontend:detail' copy.book.pk %}>
+          <li>
+              {{ copy }} </a> Due on: {{copy.due_back}} <a href={% url 'frontend:book_return' copy.book.pk%} class="btn btn-danger">Return</a>
+          </li>
+          <br>
+    
+    {% endfor %}
+</ul>
+
+
+{% else %}
+  <p>You are not logged in</p>
+  <a href="{% url 'login' %}">Log In</a> |
+  <a href="{% url 'signup' %}">Sign Up</a>
+  
+{% endif %}
+{% endblock %}
